@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "323208822213",
+    "project_id": "ecotrak-ae8a9",
+    "storage_bucket": "ecotrak-ae8a9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323208822213:android:06ff43b55b2745d3665fac",
+        "android_client_info": {
+          "package_name": "com.example.ecotrek"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBifWqujp9FlevVL2q9H94FFq5DGQp_Ui4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

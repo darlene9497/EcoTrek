@@ -1,17 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart';
+import 'providers/app_provider.dart';
+import 'providers/bookmark_provider.dart';
 
-import 'screens/home.dart';
-import 'screens/challenges.dart';
-import 'screens/learn.dart';
-import 'screens/profile.dart';
+import 'screens/achievements.dart';
+import 'screens/carbon_tracker.dart';
+import 'screens/auth/auth_gate.dart';
 
-void main() => runApp(
-  DevicePreview(
-    enabled: true, // set to false in production
-    builder: (context) => EcoTrekApp(),
-  ),
-);
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) {
+    await dotenv.load(fileName: ".env");
+  }
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(
+    DevicePreview(
+      enabled: true, // Disable in production
+      builder: (context) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AppProvider()),
+          ChangeNotifierProvider(create: (_) => BookmarkProvider()),
+        ],
+        child: EcoTrekApp(),
+      ),
+    ),
+  );
+
+}
 
 class EcoTrekApp extends StatelessWidget {
   @override
@@ -35,51 +57,18 @@ class EcoTrekApp extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
         ),
       ),
-      home: MainNavigation(),
+      home: AuthGate(),
       debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class MainNavigation extends StatefulWidget {
-  @override
-  _MainNavigationState createState() => _MainNavigationState();
-}
-
-class _MainNavigationState extends State<MainNavigation> {
-  int _selectedIndex = 0;
-  final List<Widget> _screens = [
-    HomeScreen(),
-    ChallengesScreen(),
-    LearnScreen(),
-    ProfileScreen()
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Colors.green[800],
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Colors.white,
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_fire_department), label: 'Challenges'),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Learn'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-      ),
+      routes: {
+        '/achievements': (context) => AchievementsScreen(),
+        '/carbon-tracker': (context) {
+          final provider = Provider.of<AppProvider>(context, listen: false);
+          return CarbonTrackerScreen(
+            userChallenges: provider.challenges,
+            completedIds: provider.currentUser?.completedChallenges ?? [],
+          );
+        },
+      },
     );
   }
 }
