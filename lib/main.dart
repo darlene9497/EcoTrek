@@ -22,7 +22,7 @@ Future<void> main() async {
   );
   runApp(
     DevicePreview(
-      enabled: false, // Disable in production
+      enabled: true, // Disable in production
       builder: (context) => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => AppProvider()),
