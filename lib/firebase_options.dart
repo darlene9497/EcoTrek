@@ -46,7 +46,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '323208822213',
     projectId: 'ecotrak-ae8a9',
     authDomain: 'ecotrak-ae8a9.firebaseapp.com',
-    storageBucket: 'ecotrak-ae8a9.firebasestorage.app',
+    storageBucket: 'ecotrak-ae8a9.appspot.com',
     measurementId: 'G-V1ZKX25099',
   );
 
@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
     appId: '1:323208822213:android:06ff43b55b2745d3665fac',
     messagingSenderId: '323208822213',
     projectId: 'ecotrak-ae8a9',
-    storageBucket: 'ecotrak-ae8a9.firebasestorage.app',
+    storageBucket: 'ecotrak-ae8a9.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:323208822213:ios:6111f0aff31019b4665fac',
     messagingSenderId: '323208822213',
     projectId: 'ecotrak-ae8a9',
-    storageBucket: 'ecotrak-ae8a9.firebasestorage.app',
+    storageBucket: 'ecotrak-ae8a9.appspot.com',
     iosBundleId: 'com.example.ecotrek',
   );
 
@@ -72,7 +72,7 @@ class DefaultFirebaseOptions {
     appId: '1:323208822213:ios:6111f0aff31019b4665fac',
     messagingSenderId: '323208822213',
     projectId: 'ecotrak-ae8a9',
-    storageBucket: 'ecotrak-ae8a9.firebasestorage.app',
+    storageBucket: 'ecotrak-ae8a9.appspot.com',
     iosBundleId: 'com.example.ecotrek',
   );
 
@@ -82,7 +82,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '323208822213',
     projectId: 'ecotrak-ae8a9',
     authDomain: 'ecotrak-ae8a9.firebaseapp.com',
-    storageBucket: 'ecotrak-ae8a9.firebasestorage.app',
+    storageBucket: 'ecotrak-ae8a9.appspot.com',
     measurementId: 'G-8MKY5F9P9F',
   );
 }
