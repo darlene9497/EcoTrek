@@ -48,6 +48,8 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen> {
                     const SizedBox(height: 16),
                     _buildQuickStats(provider),
                     const SizedBox(height: 16),
+                    _buildLeaderboard(provider), // Added leaderboard here
+                    const SizedBox(height: 16),
                     _buildCarbonFootprintChart(provider),
                     const SizedBox(height: 16),
                     QuickActionsWidget(),
@@ -205,6 +207,280 @@ class _EnhancedHomeScreenState extends State<EnhancedHomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildLeaderboard(AppProvider provider) {
+    final leaderboard = provider.leaderboard;
+    final currentUser = provider.currentUser;
+    
+    if (leaderboard.isEmpty) {
+      return Card(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.leaderboard,
+                    color: Colors.green.shade700,
+                    size: 24,
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Leaderboard',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Center(
+                child: Text(
+                  'No rankings available yet.\nComplete challenges to climb the leaderboard!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Find current user's position in leaderboard
+    int currentUserRank = -1;
+    for (int i = 0; i < leaderboard.length; i++) {
+      if (leaderboard[i].id == currentUser?.id) {
+        currentUserRank = i + 1;
+        break;
+      }
+    }
+
+    return Card(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.leaderboard,
+                      color: Colors.green.shade700,
+                      size: 24,
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Leaderboard',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            
+            // Current user's rank if not in top 5
+            if (currentUserRank > 5 && currentUser != null)
+              Container(
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                  color: Colors.green.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.green.shade200),
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.green.shade100,
+                      child: Text(
+                        currentUserRank.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green.shade800,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${currentUser.username} (You)',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '${currentUser.totalPoints}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.green.shade700,
+                          ),
+                        ),
+                        const Text(
+                          'points',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            
+            // Top 5 leaderboard
+            ...leaderboard.take(5).toList().asMap().entries.map((entry) {
+              final index = entry.key;
+              final user = entry.value;
+              final isCurrentUser = user.id == currentUser?.id;
+              
+              return Container(
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                  color: isCurrentUser ? Colors.green.shade50 : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                  border: isCurrentUser 
+                      ? Border.all(color: Colors.green.shade200)
+                      : null,
+                ),
+                child: Row(
+                  children: [
+                    _buildRankBadge(index + 1),
+                    const SizedBox(width: 12),
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.green.shade100,
+                      child: user.avatar.isNotEmpty
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                user.avatar,
+                                fit: BoxFit.cover,
+                                width: 40,
+                                height: 40,
+                              ),
+                            )
+                          : Text(
+                              user.username[0].toUpperCase(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green.shade800,
+                              ),
+                            ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            isCurrentUser ? '${user.username} (You)' : user.username,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: isCurrentUser ? Colors.green.shade800 : Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '${user.totalPoints}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.green.shade700,
+                          ),
+                        ),
+                        const Text(
+                          'points',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRankBadge(int rank) {
+    Color badgeColor;
+    IconData? icon;
+    
+    switch (rank) {
+      case 1:
+        badgeColor = Colors.amber;
+        icon = Icons.emoji_events;
+        break;
+      case 2:
+        badgeColor = Colors.grey.shade400;
+        icon = Icons.workspace_premium;
+        break;
+      case 3:
+        badgeColor = Colors.orange.shade400;
+        icon = Icons.workspace_premium;
+        break;
+      default:
+        badgeColor = Colors.blue.shade300;
+        icon = null;
+    }
+    
+    return CircleAvatar(
+      radius: 16,
+      backgroundColor: badgeColor,
+      child: icon != null
+          ? Icon(
+              icon,
+              color: Colors.white,
+              size: 16,
+            )
+          : Text(
+              rank.toString(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
     );
   }
 

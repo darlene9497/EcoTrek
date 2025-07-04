@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'dart:ui';
 import '../models/lesson_model.dart';
 import '../models/challenge_model.dart';
@@ -430,7 +431,14 @@ class LessonDetailScreen extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              // Add share functionality
+                              final contentToShare = '''
+                            📚 *${lesson.title}*
+
+                              ${lesson.description}
+
+                              Learn more in the EcoTrek app!
+                              ''';
+                              Share.share(contentToShare);
                             },
                             icon: const Icon(Icons.share),
                             label: const Text('Share'),
@@ -445,6 +453,7 @@ class LessonDetailScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+
                       ],
                     ),
                     
