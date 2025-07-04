@@ -69,8 +69,9 @@ class FirebaseService {
       
       // Simple query without filters to avoid index issues
       QuerySnapshot querySnapshot = await _challengesCollection
-          .orderBy('createdAt', descending: true)
-          .get();
+        .where('createdBy', isEqualTo: currentUserId)
+        .orderBy('createdAt', descending: true)
+        .get();
       
       print('[FirebaseService] Retrieved ${querySnapshot.docs.length} documents');
       
@@ -184,7 +185,10 @@ class FirebaseService {
   // Lesson methods
   static Future<List<LessonModel>> getLessons() async {
     try {
-      QuerySnapshot querySnapshot = await _lessonsCollection.get();
+      QuerySnapshot querySnapshot = await _lessonsCollection
+        .where('createdBy', isEqualTo: currentUserId)
+        .orderBy('createdAt', descending: true)
+        .get();
       
       return querySnapshot.docs.map((doc) {
         return LessonModel.fromFirestore(doc);
