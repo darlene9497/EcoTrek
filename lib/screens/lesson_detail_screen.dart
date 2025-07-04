@@ -14,12 +14,12 @@ class LessonDetailScreen extends StatelessWidget {
   // Function to clean markdown formatting from AI responses
   String _cleanMarkdownText(String text) {
     return text
-      .replaceAll(RegExp(r'\*\*([^*]+)\*\*'), r'$1') // Remove **bold**
-      .replaceAll(RegExp(r'\*([^*]+)\*'), r'$1')     // Remove *italic*
-      .replaceAll(RegExp(r'__([^_]+)__'), r'$1')     // Remove __bold__
-      .replaceAll(RegExp(r'_([^_]+)_'), r'$1')       // Remove _italic_
+      .replaceAll(RegExp(r'\*\*([^*]+)\*\*'), r'→') // Remove **bold**
+      .replaceAll(RegExp(r'\*([^*]+)\*'), r'→')     // Remove *italic*
+      .replaceAll(RegExp(r'__([^_]+)__'), r'→')     // Remove __bold__
+      .replaceAll(RegExp(r'_([^_]+)_'), r'→')       // Remove _italic_
       .replaceAll(RegExp(r'#{1,6}\s*'), '')          // Remove headers
-      .replaceAll(RegExp(r'`([^`]+)`'), r'$1')       // Remove `code`
+      .replaceAll(RegExp(r'`([^`]+)`'), r'→')       // Remove `code`
       .replaceAll(RegExp(r'```[^`]*```'), '')        // Remove code blocks
       .trim();
   }
