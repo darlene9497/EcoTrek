@@ -1,17 +1,49 @@
-# ecotrek
+# EcoTrek – Gamified Sustainability App
 
-A new Flutter project.
+**EcoTrek** is a gamified Flutter application designed to help users embrace eco-friendly habits through engaging challenges, personalized roadmaps, and real-world impact tracking. Built for individuals passionate about climate action, EcoTrek uses AI, Firebase, and an intuitive UI to make sustainability simple, rewarding, and social.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+-  **Eco Challenges**  
+  Complete daily/weekly challenges across categories like food, water, waste, shopping, and digital life.
 
-A few resources to get you started if this is your first Flutter project:
+-  **AI-Generated Challenges**  
+  Instantly get new, creative challenge ideas powered by AI based on category and difficulty.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+-  **Lessons & Learning Paths**  
+  Access educational content on sustainable living and track lesson completion.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# EcoTrek
+-  **Smart Roadmaps**  
+  Define your goals and get an AI-generated roadmap with phases and steps tailored to your timeline.
+
+-  **Leaderboard**  
+  Compete with others and climb the leaderboard by earning XP and completing tasks.
+
+-  **Progress Tracking**  
+  Your completed challenges, points, and XP are synced across the app with persistent state using `Provider` + `SharedPreferences`.
+
+-  **Profile & Achievements**  
+  Monitor your XP, level up with experience points (every 500 XP), and stay motivated with daily eco quotes.
+
+## Tech Stack
+
+- **Flutter** (cross-platform development)
+- **Firebase** (Auth, Firestore, Storage)
+- **OpenRouter/Gemini API** (for AI features)
+- **Provider** (state management)
+- **SharedPreferences** (local persistence)
+- **Netlify** (for web deployment)
+
+## Installation
+
+### Flutter
+```bash
+git clone https://github.com/darlene9497/EcoTrek.git
+cd EcoTrek
+flutter pub get
+flutter run
+```
+
+## Live Preview
+Try EcoTrek now:
+[Live Preview on Netlify](https://eco-trek.netlify.app)
